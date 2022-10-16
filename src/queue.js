@@ -1,4 +1,7 @@
-const { NotImplementedError } = require("../extensions/index.js");
+const {
+  NotImplementedError,
+  checkForNotThrowingErrors,
+} = require("../extensions/index.js");
 
 const { ListNode } = require("../extensions/list-node.js");
 
@@ -14,13 +17,34 @@ const { ListNode } = require("../extensions/list-node.js");
  * queue.getUnderlyingList() // returns { value: 3, next: null }
  */
 class Queue {
+  head;
+  tail;
+
   getUnderlyingList() {
-    return this.queue;
+    return this.head;
   }
 
-  enqueue(value) {}
+  enqueue(value) {
+    const newVal = new ListNode(value);
 
-  dequeue() {}
+    if (this.tail) {
+      this.tail.next = newVal;
+      this.tail = newVal;
+    } else {
+      this.head = newVal;
+      this.tail = newVal;
+    }
+  }
+
+  dequeue() {
+    let currElment = this.head.value;
+    if (this.head == this.tail) {
+      this.head = null;
+      this.tail = null;
+    } else this.head = this.head.next;
+
+    return currElment;
+  }
 }
 
 module.exports = {
